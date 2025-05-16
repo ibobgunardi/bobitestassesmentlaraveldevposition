@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["php", "phpPackages.composer", "nodejs_18", "libmysqlclient", "nginx"]
+nixPkgs = ["php", "phpPackages.composer", "nodejs-18_x", "libmysqlclient", "nginx"]
 
 [phases.install]
 cmds = [
