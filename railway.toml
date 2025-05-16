@@ -1,0 +1,35 @@
+[build]
+builder = "nixpacks"
+buildCommand = "composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev && php artisan package:discover --ansi && php artisan config:cache && php artisan route:cache && php artisan view:cache && npm ci && npm run build"
+
+[deploy]
+startCommand = "php artisan migrate --force && php artisan storage:link && php artisan config:cache && php -d opcache.enable=1 -d opcache.validate_timestamps=0 artisan serve --port=$PORT --host=0.0.0.0"
+healthcheckPath = "/"
+healthcheckTimeout = 100
+restartPolicyType = "on_failure"
+
+[services.web]
+name = "web"
+processType = "web"
+buildCommand = "composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev && php artisan package:discover --ansi && php artisan config:cache && php artisan route:cache && php artisan view:cache && npm ci && npm run build"
+startCommand = "php artisan migrate --force && php artisan storage:link && php artisan config:cache && php -d opcache.enable=1 -d opcache.validate_timestamps=0 artisan serve --port=$PORT --host=0.0.0.0"
+healthcheckPath = "/"
+healthcheckTimeout = 100
+restartPolicyType = "on_failure"
+
+[services.queue]
+name = "queue-worker"
+processType = "worker"
+buildCommand = "composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev"
+startCommand = "php artisan queue:work --tries=3 --timeout=90"
+autoscaling.enabled = true
+autoscaling.minReplicas = 1
+autoscaling.maxReplicas = 3
+restartPolicyType = "on_failure"
+
+[services.cron]
+name = "scheduler"
+processType = "cron"
+buildCommand = "composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev"
+startCommand = "php artisan schedule:work"
+restartPolicyType = "on_failure"
