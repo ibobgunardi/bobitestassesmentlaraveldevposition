@@ -1,46 +1,60 @@
-# railway.toml
+# Railway.toml configuration for Laravel application with Pusher
 
-# Build configuration
 [build]
 builder = "nixpacks"
-nixpacksPlan.providers = ["php", "node"]
-buildCommand = """
-    composer install --optimize-autoloader --no-dev &&
-    npm install &&
-    npm run build &&
-    php artisan optimize &&
-    php artisan storage:link &&
-    php artisan migrate --force
-"""
+buildCommand = "composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev && php artisan package:discover --ansi && npm ci && npm run build && php artisan config:cache && php artisan route:cache && php artisan view:cache"
 
-# Deployment configuration for main app service
 [deploy]
-startCommand = "php artisan serve --host=0.0.0.0 --port=$PORT"
+startCommand = "php artisan migrate --force && php artisan db:seed --force && php artisan storage:link && php -S 0.0.0.0:$PORT -t public"
 healthcheckPath = "/"
-healthcheckTimeout = 60
+healthcheckTimeout = 100
 restartPolicyType = "on-failure"
 restartPolicyMaxRetries = 5
 
-# Environment variables
-[env]
+[variables]
+APP_KEY = "${APP_KEY}"
+APP_NAME = "Laravel App"
 APP_ENV = "production"
 APP_DEBUG = "false"
-APP_URL = "${{RAILWAY_PUBLIC_DOMAIN}}"
-LOG_CHANNEL = "errorlog"
-BROADCAST_CONNECTION = "pusher"
-PUSHER_APP_ID = "${{PUSHER_APP_ID}}"
-PUSHER_APP_KEY = "${{PUSHER_APP_KEY}}"
-PUSHER_APP_SECRET = "${{PUSHER_APP_SECRET}}"
+APP_URL = "${RAILWAY_PUBLIC_DOMAIN}"
+LOG_CHANNEL = "stack"
+LOG_LEVEL = "error"
+
+# Database Configuration
+DB_CONNECTION = "pgsql"
+DB_HOST = "${MYSQL_HOST}"
+DB_PORT = "${MYSQL_PORT}"
+DB_DATABASE = "${MYSQL_DATABASE}"
+DB_USERNAME = "${MYSQL_USERNAME}"
+DB_PASSWORD = "${MYSQL_PASSWORD}"
+
+# Pusher Configuration
+BROADCAST_DRIVER = "pusher"
+PUSHER_APP_ID = "${PUSHER_APP_ID}"
+PUSHER_APP_KEY = "${PUSHER_APP_KEY}"
+PUSHER_APP_SECRET = "${PUSHER_APP_SECRET}"
+PUSHER_APP_CLUSTER = "${PUSHER_APP_CLUSTER}"
 PUSHER_HOST = ""
 PUSHER_PORT = "443"
 PUSHER_SCHEME = "https"
-PUSHER_APP_CLUSTER = "mt1"
+PUSHER_APP_ENCRYPTED = "true"
 
-# Queue worker service
-[[services]]
-name = "worker"
-startCommand = "php artisan queue:work --tries=3"
-internal = true
-buildCommand = "${{build.buildCommand}}"
-restartPolicyType = "on-failure"
-restartPolicyMaxRetries = 5
+# Queue & Session Configuration
+QUEUE_CONNECTION = "database"
+SESSION_DRIVER = "database"
+SESSION_LIFETIME = "120"
+
+# Cache & File Storage
+CACHE_DRIVER = "file"
+FILESYSTEM_DISK = "local"
+
+# Mail Configuration
+MAIL_MAILER = "log"
+
+[nixpacks]
+nodejs-version = "18.x"
+php-version = "8.2"
+
+[volumes]
+source = "storage"
+destination = "/app/storage"
