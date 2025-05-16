@@ -1,3 +1,21 @@
+[phases.setup]
+nixPkgs = ["php", "phpPackages.composer", "nodejs_18", "libmysqlclient", "nginx"]
+
+[phases.install]
+cmds = [
+  "cp .env.example .env",
+  "composer install --no-scripts --ignore-platform-reqs",
+  "npm ci"
+]
+
+[phases.build]
+cmds = [
+  "npm run build"
+]
+
+[start]
+cmd = "php artisan config:cache && php artisan migrate --force && node /assets/scripts/prestart.mjs /assets/nginx.template.conf /nginx.conf && (php-fpm -y /assets/php-fpm.conf & nginx -c /nginx.conf)"
+
 [build]
 builder = "nixpacks"
 buildCommand = "cp .env.example .env && composer install --no-scripts --ignore-platform-reqs && npm ci && npm run build"
