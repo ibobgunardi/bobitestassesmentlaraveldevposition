@@ -1,0 +1,66 @@
+# Laravel & PHP
+/vendor
+/node_modules
+/public/storage
+/storage/*.key
+.env
+.env.*
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+.phpunit.result.cache
+/storage/logs
+/storage/framework/cache/data
+/storage/framework/sessions
+/storage/framework/views
+/storage/framework/testing
+/database/*.sqlite
+/database/*.sqlite3
+
+# Laravel IDE Helper
+.phpstorm.meta.php
+_ide_helper.php
+_ide_helper_models.php
+
+# Laravel Telescope
+/telescope
+
+# Laravel Horizon
+/horizon
+
+# Laravel Mix
+/public/hot
+/public/mix-manifest.json
+/public/css/*.css.map
+/public/js/*.js.map
+
+# Node & JS
+/node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+/public/js/bundle.js
+/public/js/bundle.js.map
+
+# OS/Editor
+.DS_Store
+Thumbs.db
+*.sublime-workspace
+*.sublime-project
+*.vscode
+.idea
+
+# Composer
+composer.lock
+
+# Misc
+*.log
+*.cache
+*.pid
+*.seed
+*.pid.lock
+
+# Custom
+/public/assets/js/bundle.js
+/public/assets/js/bundle.js.map

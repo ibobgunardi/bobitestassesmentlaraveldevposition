@@ -1,0 +1,187 @@
+:root {
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --card-border: rgba(255, 255, 255, 0.25);
+}
+
+/* Login Page Body - Full Screen Background */
+.login-page {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+        url("/images/login-bg.jpg") no-repeat center center;
+    background-size: cover;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+}
+
+/* Transparent Card with Controlled Width */
+.login-transparent-card {
+    background-color: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+}
+
+.card-body {
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 2rem;
+}
+
+/* Form Elements */
+.form-control {
+    height: 38px;
+    padding: 0 1rem;
+    font-size: 0.95rem;
+    line-height: 38px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+    border-color: #0d6efd;
+}
+
+/* Input Groups Spacing */
+.input-group {
+    margin-bottom: 1.25rem;
+}
+
+.input-group-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 38px;
+    padding: 0;
+    background-color: rgba(248, 249, 250, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+/* FontAwesome Icon Sizing */
+.input-group-text i {
+    font-size: 1.1rem;
+    color: #212529;
+    line-height: 1;
+    height: 1.1rem;
+    width: 1.25rem;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn i {
+    font-size: 0.95rem;
+}
+
+/* Autofill Buttons */
+.autofill-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+}
+
+.autofill-buttons .btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    background-color: rgba(248, 249, 250, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    color: #212529;
+    font-weight: 600;
+}
+
+.autofill-buttons .btn:hover {
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Login Button */
+#login-btn {
+    padding: 0.75rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Loading Indicator */
+#loading-indicator {
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+/* Form Group Spacing */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #000000;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+}
+
+.text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    color: #000000;
+    font-weight: 700;
+}
+
+/* Alert Messages */
+#login-alert {
+    margin-bottom: 1.5rem;
+    padding: 0.75rem 1rem;
+}
+
+/* Remember Me Checkbox */
+.form-check {
+    margin-bottom: 1.25rem;
+}
+
+/* Invalid Feedback */
+.invalid-feedback {
+    margin-top: 0.25rem;
+    color: #dc3545;
+}
+
+/* Mobile Responsive */
+@media (max-width: 576px) {
+    .login-transparent-card {
+        padding: 1.5rem;
+        max-width: 90%;
+    }
+
+    .autofill-buttons {
+        grid-template-columns: 1fr;
+    }
+}
