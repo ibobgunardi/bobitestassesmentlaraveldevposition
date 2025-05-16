@@ -29,11 +29,18 @@ WORKDIR /var/www
 # Copy project files
 COPY . /var/www/
 
+# Create environment file if it doesn't exist
+RUN if [ ! -f .env ]; then cp .env.example .env || touch .env; fi
+RUN php artisan key:generate --force
+
 # Set permissions
 RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
 # Install dependencies
-RUN composer install --no-interaction --no-dev --optimize-autoloader
+RUN composer install --no-scripts --no-interaction --no-dev --optimize-autoloader
+RUN composer dump-autoload -o
+RUN php artisan clear-compiled || true
+RUN php artisan optimize || true
 RUN npm ci && npm run build
 
 # Copy nginx configuration
@@ -42,8 +49,12 @@ COPY docker/nginx/conf.d/app.conf /etc/nginx/conf.d/default.conf
 # Copy supervisor configuration
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
+# Copy startup script
+COPY docker/startup.sh /usr/local/bin/startup.sh
+RUN chmod +x /usr/local/bin/startup.sh
+
 # Expose port 80
 EXPOSE 80
 
-# Start Supervisor to manage processes
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+# Start with the startup script
+CMD ["/usr/local/bin/startup.sh"]
