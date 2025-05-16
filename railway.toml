@@ -20,6 +20,6 @@ cmds = [
 ]
 [build]
 builder = "nixpacks"
-nixpkgsArchive = "https://github.com/NixOS/nixpkgs/archive/ffeebf0acf3ae8b29f8c7049cd911b9636efd7e7.tar.gz"
+
 [start]
 cmd = "php artisan config:cache && php artisan migrate --force && node /assets/scripts/prestart.mjs /assets/nginx.template.conf /nginx.conf && (php-fpm -y /assets/php-fpm.conf & nginx -c /nginx.conf)"
